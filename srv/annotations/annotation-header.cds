@@ -75,24 +75,6 @@ annotate p.Header with @(
             Value: OrderStatus
         }
     ],
-    UI.FieldGroup #HeaderData: {
-        $Type: 'UI.FieldGroupType',
-        Data: [
-            {
-                $Type: 'UI.DataField',
-                Value: Createon
-            },
-            {
-                $Type: 'UI.DataField',
-                Value: deliverydate
-            },
-            {
-                $Type: 'UI.DataField',
-                Value: OrderStatus.description,
-                Label: 'Status'
-            }
-        ]
-    },
     UI.FieldGroup #Detail: {
         $Type: 'UI.FieldGroupType',
         Data: [
@@ -111,15 +93,58 @@ annotate p.Header with @(
             {
                 $Type: 'UI.DataField',
                 Value: Country
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: OrderStatus.description,
+                Label: 'Order Status'
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: Createon,
+                @Common.FieldControl: {
+                    $edmJson: {
+                        $If:[
+                            {
+                                $Eq:[
+                                    {
+                                        $Path: 'isDraft'
+                                    },
+                                    true
+                                ]
+                            },
+                            3,
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: deliverydate
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: ImageUrl,
+                @Common.FieldControl: {
+                    $edmJson: {
+                        $If:[
+                            {
+                                $Eq:[
+                                    {
+                                        $Path: 'isDraft'
+                                    },
+                                    true
+                                ]
+                            },
+                            3,
+                            1
+                        ]
+                    }
+                }
             }
         ]
     },
-    UI.HeaderFacets: [
-        {
-            $Type: 'UI.ReferenceFacet',
-            Target: '@UI.FieldGroup#HeaderData'
-        }
-    ],
     UI.Facets: [
         {
             $Type: 'UI.CollectionFacet',

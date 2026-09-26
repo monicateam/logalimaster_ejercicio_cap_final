@@ -29,6 +29,17 @@ module.exports = class SalesOrdersService extends cds.ApplicationService {
             }
         });
 
+        this.after(['READ'], Header.drafts, async(requ)=> {
+            const headers = Array.isArray(requ) ? requ : [requ];
+            return Promise.all(requ.map(async (header) => {
+                const headerID = header.ID;
+                const existID = await SELECT.one.from(Header).where({ID: headerID});
+                if(existID === null || existID === undefined) {
+                    header.isDraft = true;
+                }
+            }));
+        });
+
         this.before('NEW', Items.drafts, async(requ)=> {
             const headerID = requ.data.ID_ID;
             const itemUUID = requ.data.ItemUUID;

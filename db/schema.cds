@@ -10,7 +10,7 @@ type QuantityWidth: Decimal(13,3);
 type DecimalDepth: Decimal(12,2);
 type QuantityItem: Decimal(16,2);
 
-entity Header {
+entity Header: managed {
     key ID : String(36);
     email: String(40);
     firstname: String(40);
@@ -21,9 +21,10 @@ entity Header {
     OrderStatus: Association to Status;
     ImageUrl: String;
     items: Composition of many Items on items.ID=$self;
+    virtual isDraft: Boolean;
 }
 
-entity Items {
+entity Items: managed {
     key ID: association to Header @cds.on.insert: 1;
     key ItemUUID: String(36);
     Name: String(40);
