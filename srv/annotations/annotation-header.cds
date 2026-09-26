@@ -96,7 +96,7 @@ annotate p.Header with @(
             },
             {
                 $Type: 'UI.DataField',
-                Value: OrderStatus.description,
+                Value: OrderStatus_status,
                 Label: 'Order Status'
             },
             {
